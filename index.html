@@ -97,12 +97,42 @@
     div.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}});
     return div;
   }
-  async function counter(key,increment){
-    const url=`https://counterapi.com/api/${encodeURIComponent(NS)}/vote/${encodeURIComponent(key)}?behavior=vote${increment?'':'&readOnly=true'}`;
-    const r=await fetch(url,{cache:'no-store'});
-    if(!r.ok) throw new Error('counter');
-    return r.json();
+
+  function jsonpOnce(key,increment){
+    return new Promise((resolve,reject)=>{
+      const cb='counterCb_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+      const script=document.createElement('script');
+      const timeout=setTimeout(()=>finish(new Error('timeout')),8000);
+      let done=false;
+      function cleanup(){
+        clearTimeout(timeout);
+        delete window[cb];
+        script.remove();
+      }
+      function finish(err,data){
+        if(done) return;
+        done=true;
+        cleanup();
+        err?reject(err):resolve(data);
+      }
+      window[cb]=data=>finish(null,data);
+      script.onerror=()=>finish(new Error('script'));
+      const params=new URLSearchParams({callback:cb});
+      if(!increment) params.set('readOnly','true');
+      script.src=`https://counterapi.com/api/${encodeURIComponent(NS)}/vote/${encodeURIComponent(key)}?${params.toString()}`;
+      document.head.appendChild(script);
+    });
   }
+
+  async function counter(key,increment){
+    let lastError;
+    for(let attempt=0;attempt<3;attempt++){
+      try{return await jsonpOnce(key,increment);}
+      catch(e){lastError=e;if(attempt<2) await new Promise(r=>setTimeout(r,500*(attempt+1)));}
+    }
+    throw lastError || new Error('counter');
+  }
+
   function vote(pair,key){
     state.votes ||= {};
     if(state.votes[pair.id]) return;
@@ -114,6 +144,7 @@
     render();
     window.scrollTo({top:0,behavior:'auto'});
   }
+
   async function loadFinalResults(){
     finalResults.innerHTML='';
     finalStatus.textContent='Carregando resultados…';
@@ -128,9 +159,10 @@
       finalResults.innerHTML=all.map(r=>`<div class="summary-row"><strong>Cena ${r.n}</strong><div class="summary-item"><b>A: ${r.ca} (${r.pa}%)</b><span>votos</span></div><div class="summary-item"><b>B: ${r.cb} (${r.pb}%)</b><span>votos</span></div></div>`).join('');
       finalStatus.textContent='Resultado atualizado agora';
     }catch(e){
-      finalStatus.textContent='Não foi possível carregar o agregado agora. Atualize a página para tentar novamente.';
+      finalStatus.textContent='O contador externo está indisponível no momento. Seus votos deste navegador continuam registrados.';
     }
   }
+
   function render(){
     while(current<pairs.length && state.votes?.[pairs[current].id]) current++;
     save();
