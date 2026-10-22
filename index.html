@@ -6,10 +6,10 @@
   <meta name="color-scheme" content="light" />
   <title>Teste cego de criativos</title>
   <style>
-    :root{--bg:#f5f6f8;--card:#fff;--text:#111318;--muted:#68707d;--line:#e4e7ec;--accent:#16181d;--good:#137a45}
+    :root{--bg:#f5f6f8;--card:#fff;--text:#111318;--muted:#68707d;--line:#e4e7ec;--accent:#16181d}
     *{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:var(--bg)}
-    body{min-height:100vh}.app{width:min(1420px,100%);margin:auto;padding:28px 24px 48px}.top{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:18px}.eyebrow{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}.progress{font-size:14px;color:var(--muted);white-space:nowrap}.bar{height:4px;background:#e5e7eb;border-radius:99px;overflow:hidden;margin-bottom:24px}.bar>i{display:block;height:100%;background:var(--accent);width:25%;transition:width .25s ease}.intro{text-align:center;margin:0 auto 22px;max-width:760px}.intro h1{font-size:clamp(23px,2.4vw,34px);line-height:1.15;margin:0 0 8px}.intro p{margin:0;color:var(--muted);font-size:15px}.arena{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}.choice{border:1px solid var(--line);background:var(--card);border-radius:16px;padding:12px;cursor:pointer;transition:transform .14s ease,border-color .14s ease,box-shadow .14s ease;position:relative}.choice:hover{transform:translateY(-2px);border-color:#b8bec8;box-shadow:0 12px 34px rgba(17,19,24,.08)}.choice:focus-visible{outline:3px solid rgba(17,19,24,.22);outline-offset:3px}.choice.disabled{cursor:default;pointer-events:none}.choice img{display:block;width:100%;height:auto;aspect-ratio:941/1672;object-fit:cover;border-radius:10px;background:#eceff2}.vote{display:flex;justify-content:center;align-items:center;height:48px;margin-top:11px;border-radius:10px;background:#f2f3f5;font-weight:700;font-size:15px}.choice:hover .vote{background:#e9ebef}.selected{border:2px solid var(--accent);padding:11px}.selected .vote{background:var(--accent);color:white}.result{display:none;margin:22px auto 0;max-width:720px;background:white;border:1px solid var(--line);border-radius:14px;padding:18px;text-align:center}.result.show{display:block}.result h2{font-size:19px;margin:0 0 12px}.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}.stat{background:#f4f5f7;border-radius:10px;padding:12px}.stat strong{display:block;font-size:24px}.stat span{font-size:13px;color:var(--muted)}.next{appearance:none;border:0;border-radius:10px;background:var(--accent);color:white;padding:13px 22px;font-weight:700;font-size:15px;cursor:pointer}.status{font-size:13px;color:var(--muted);min-height:18px;margin:6px 0 12px}.finish{display:none;min-height:65vh;place-items:center;text-align:center}.finish.show{display:grid}.finish h1{font-size:clamp(30px,5vw,54px);margin:0 0 12px}.finish p{font-size:17px;color:var(--muted);margin:0}.hidden{display:none!important}
-    @media(max-width:760px){.app{padding:18px 12px 32px}.top{margin-bottom:14px}.arena{gap:9px}.choice{padding:6px;border-radius:11px}.choice img{border-radius:7px}.selected{padding:5px}.vote{height:40px;margin-top:6px;font-size:13px}.intro{margin-bottom:15px}.intro p{font-size:14px}.result{margin-top:15px}.stat strong{font-size:20px}}
+    body{min-height:100vh}.app{width:min(1420px,100%);margin:auto;padding:28px 24px 48px}.top{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:18px}.eyebrow{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}.progress{font-size:14px;color:var(--muted);white-space:nowrap}.bar{height:4px;background:#e5e7eb;border-radius:99px;overflow:hidden;margin-bottom:24px}.bar>i{display:block;height:100%;background:var(--accent);width:25%;transition:width .25s ease}.intro{text-align:center;margin:0 auto 22px;max-width:760px}.intro h1{font-size:clamp(23px,2.4vw,34px);line-height:1.15;margin:0 0 8px}.intro p{margin:0;color:var(--muted);font-size:15px}.arena{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}.choice{border:1px solid var(--line);background:var(--card);border-radius:16px;padding:12px;cursor:pointer;transition:transform .14s ease,border-color .14s ease,box-shadow .14s ease;position:relative}.choice:hover{transform:translateY(-2px);border-color:#b8bec8;box-shadow:0 12px 34px rgba(17,19,24,.08)}.choice:focus-visible{outline:3px solid rgba(17,19,24,.22);outline-offset:3px}.choice.disabled{cursor:default;pointer-events:none}.choice img{display:block;width:100%;height:auto;aspect-ratio:941/1672;object-fit:cover;border-radius:10px;background:#eceff2}.vote{display:flex;justify-content:center;align-items:center;height:48px;margin-top:11px;border-radius:10px;background:#f2f3f5;font-weight:700;font-size:15px}.choice:hover .vote{background:#e9ebef}.selected{border:2px solid var(--accent);padding:11px}.selected .vote{background:var(--accent);color:white}.result{display:none;margin:22px auto 0;max-width:720px;background:white;border:1px solid var(--line);border-radius:14px;padding:18px;text-align:center}.result.show{display:block}.result h2{font-size:19px;margin:0 0 12px}.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}.stat{background:#f4f5f7;border-radius:10px;padding:12px}.stat strong{display:block;font-size:24px}.stat span{font-size:13px;color:var(--muted)}.next{appearance:none;border:0;border-radius:10px;background:var(--accent);color:white;padding:13px 22px;font-weight:700;font-size:15px;cursor:pointer}.status{font-size:13px;color:var(--muted);min-height:18px;margin:6px 0 12px}.finish{display:none;min-height:70vh;place-items:center}.finish.show{display:grid}.finish-card{width:min(720px,100%);background:white;border:1px solid var(--line);border-radius:16px;padding:28px}.finish h1{text-align:center;font-size:clamp(30px,5vw,50px);margin:0 0 8px}.finish-lead{text-align:center;font-size:16px;color:var(--muted);margin:0 0 24px}.summary{display:grid;gap:10px;margin-top:12px}.summary-row{display:grid;grid-template-columns:90px 1fr 1fr;gap:10px;align-items:center;padding:12px;border-radius:10px;background:#f4f5f7}.summary-row strong{font-size:14px}.summary-item{text-align:center}.summary-item b{display:block;font-size:18px}.summary-item span{font-size:12px;color:var(--muted)}.final-status{text-align:center;color:var(--muted);font-size:13px;margin-top:6px}.final-note{text-align:center;color:var(--muted);font-size:12px;margin:14px 0 0}.hidden{display:none!important}
+    @media(max-width:760px){.app{padding:18px 12px 32px}.top{margin-bottom:14px}.arena{gap:9px}.choice{padding:6px;border-radius:11px}.choice img{border-radius:7px}.selected{padding:5px}.vote{height:40px;margin-top:6px;font-size:13px}.intro{margin-bottom:15px}.intro p{font-size:14px}.result{margin-top:15px}.stat strong{font-size:20px}.finish-card{padding:20px 14px}.summary-row{grid-template-columns:70px 1fr 1fr;gap:6px;padding:10px 8px}}
   </style>
 </head>
 <body>
@@ -26,7 +26,16 @@
       <button class="next" id="nextBtn">Próxima comparação</button>
     </section>
   </section>
-  <section class="finish" id="finish"><div><h1>Obrigado pela participação.</h1><p>Suas escolhas foram registradas.</p></div></section>
+
+  <section class="finish" id="finish">
+    <div class="finish-card">
+      <h1>Obrigado pela participação.</h1>
+      <p class="finish-lead">Resultado agregado de todas as votações:</p>
+      <div class="final-status" id="finalStatus">Carregando resultados…</div>
+      <div class="summary" id="finalResults"></div>
+      <p class="final-note">A e B correspondem aos dois criativos originais de cada cena, independentemente da posição em que apareceram na tela.</p>
+    </div>
+  </section>
 </main>
 <script>
 (() => {
@@ -46,6 +55,8 @@
   const nextBtn = document.getElementById('nextBtn');
   const progressText = document.getElementById('progressText');
   const progressBar = document.getElementById('progressBar');
+  const finalResults = document.getElementById('finalResults');
+  const finalStatus = document.getElementById('finalStatus');
 
   function save(){ state.current=current; localStorage.setItem(storeKey, JSON.stringify(state)); }
   function layoutFor(pair){
@@ -82,8 +93,29 @@
       status.textContent='Voto salvo neste navegador. O placar agregado está temporariamente indisponível.';
     }
   }
+  async function loadFinalResults(){
+    finalResults.innerHTML='';
+    finalStatus.textContent='Carregando resultados…';
+    try{
+      const all=await Promise.all(pairs.map(async(pair,i)=>{
+        const [a,b]=await Promise.all([counter(`${pair.id}-a`,false),counter(`${pair.id}-b`,false)]);
+        const ca=Number(a.value)||0, cb=Number(b.value)||0, total=ca+cb;
+        const pa=total?Math.round(ca*100/total):0, pb=total?100-pa:0;
+        return {n:i+1,ca,cb,total,pa,pb};
+      }));
+      finalResults.innerHTML=all.map(r=>`<div class="summary-row"><strong>Cena ${r.n}</strong><div class="summary-item"><b>A: ${r.ca} (${r.pa}%)</b><span>votos</span></div><div class="summary-item"><b>B: ${r.cb} (${r.pb}%)</b><span>votos</span></div></div>`).join('');
+      finalStatus.textContent='Resultado atualizado agora';
+    }catch(e){
+      finalStatus.textContent='Não foi possível carregar o agregado agora. Tente atualizar a página.';
+    }
+  }
   function render(){
-    if(current>=pairs.length){ document.getElementById('quiz').classList.add('hidden'); document.getElementById('finish').classList.add('show'); return; }
+    if(current>=pairs.length){
+      document.getElementById('quiz').classList.add('hidden');
+      document.getElementById('finish').classList.add('show');
+      loadFinalResults();
+      return;
+    }
     const pair=pairs[current], order=layoutFor(pair); arena.innerHTML=''; result.classList.remove('show');
     progressText.textContent=`${current+1} de ${pairs.length}`; progressBar.style.width=((current+1)/pairs.length*100)+'%';
     arena.append(card(pair,order[0],'left'),card(pair,order[1],'right'));
