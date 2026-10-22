@@ -7,9 +7,40 @@
   <title>Teste cego de criativos</title>
   <style>
     :root{--bg:#f5f6f8;--card:#fff;--text:#111318;--muted:#68707d;--line:#e4e7ec;--accent:#16181d}
-    *{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:var(--bg)}
-    body{min-height:100vh}.app{width:min(1420px,100%);margin:auto;padding:28px 24px 48px}.top{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:18px}.eyebrow{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}.progress{font-size:14px;color:var(--muted);white-space:nowrap}.bar{height:4px;background:#e5e7eb;border-radius:99px;overflow:hidden;margin-bottom:24px}.bar>i{display:block;height:100%;background:var(--accent);width:25%;transition:width .25s ease}.intro{text-align:center;margin:0 auto 22px;max-width:760px}.intro h1{font-size:clamp(23px,2.4vw,34px);line-height:1.15;margin:0 0 8px}.intro p{margin:0;color:var(--muted);font-size:15px}.arena{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}.choice{border:1px solid var(--line);background:var(--card);border-radius:16px;padding:12px;cursor:pointer;transition:transform .14s ease,border-color .14s ease,box-shadow .14s ease;position:relative}.choice:hover{transform:translateY(-2px);border-color:#b8bec8;box-shadow:0 12px 34px rgba(17,19,24,.08)}.choice:focus-visible{outline:3px solid rgba(17,19,24,.22);outline-offset:3px}.choice.disabled{cursor:default;pointer-events:none}.choice img{display:block;width:100%;height:auto;aspect-ratio:941/1672;object-fit:cover;border-radius:10px;background:#eceff2}.vote{display:flex;justify-content:center;align-items:center;height:48px;margin-top:11px;border-radius:10px;background:#f2f3f5;font-weight:700;font-size:15px}.choice:hover .vote{background:#e9ebef}.selected{border:2px solid var(--accent);padding:11px}.selected .vote{background:var(--accent);color:white}.result{display:none;margin:22px auto 0;max-width:720px;background:white;border:1px solid var(--line);border-radius:14px;padding:18px;text-align:center}.result.show{display:block}.result h2{font-size:19px;margin:0 0 12px}.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}.stat{background:#f4f5f7;border-radius:10px;padding:12px}.stat strong{display:block;font-size:24px}.stat span{font-size:13px;color:var(--muted)}.next{appearance:none;border:0;border-radius:10px;background:var(--accent);color:white;padding:13px 22px;font-weight:700;font-size:15px;cursor:pointer}.status{font-size:13px;color:var(--muted);min-height:18px;margin:6px 0 12px}.finish{display:none;min-height:70vh;place-items:center}.finish.show{display:grid}.finish-card{width:min(720px,100%);background:white;border:1px solid var(--line);border-radius:16px;padding:28px}.finish h1{text-align:center;font-size:clamp(30px,5vw,50px);margin:0 0 8px}.finish-lead{text-align:center;font-size:16px;color:var(--muted);margin:0 0 24px}.summary{display:grid;gap:10px;margin-top:12px}.summary-row{display:grid;grid-template-columns:90px 1fr 1fr;gap:10px;align-items:center;padding:12px;border-radius:10px;background:#f4f5f7}.summary-row strong{font-size:14px}.summary-item{text-align:center}.summary-item b{display:block;font-size:18px}.summary-item span{font-size:12px;color:var(--muted)}.final-status{text-align:center;color:var(--muted);font-size:13px;margin-top:6px}.final-note{text-align:center;color:var(--muted);font-size:12px;margin:14px 0 0}.hidden{display:none!important}
-    @media(max-width:760px){.app{padding:18px 12px 32px}.top{margin-bottom:14px}.arena{gap:9px}.choice{padding:6px;border-radius:11px}.choice img{border-radius:7px}.selected{padding:5px}.vote{height:40px;margin-top:6px;font-size:13px}.intro{margin-bottom:15px}.intro p{font-size:14px}.result{margin-top:15px}.stat strong{font-size:20px}.finish-card{padding:20px 14px}.summary-row{grid-template-columns:70px 1fr 1fr;gap:6px;padding:10px 8px}}
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:var(--bg)}
+    body{min-height:100vh;min-height:100dvh}
+    .app{width:min(1500px,100%);margin:auto;padding:16px 18px 28px}
+    .top{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:10px}
+    .eyebrow{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+    .progress{font-size:13px;color:var(--muted);white-space:nowrap}
+    .bar{height:3px;background:#e5e7eb;border-radius:99px;overflow:hidden;margin-bottom:12px}
+    .bar>i{display:block;height:100%;background:var(--accent);width:25%;transition:width .18s ease}
+    .intro{text-align:center;margin:0 auto 12px;max-width:760px}
+    .intro h1{font-size:clamp(20px,2vw,30px);line-height:1.1;margin:0 0 4px}
+    .intro p{margin:0;color:var(--muted);font-size:13px}
+    .arena{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:stretch}
+    .choice{min-width:0;border:1px solid var(--line);background:var(--card);border-radius:14px;padding:8px;cursor:pointer;transition:transform .12s ease,border-color .12s ease,box-shadow .12s ease;display:flex;flex-direction:column;align-items:stretch}
+    .choice:hover{transform:translateY(-1px);border-color:#aeb5c0;box-shadow:0 10px 28px rgba(17,19,24,.07)}
+    .choice:active{transform:scale(.997)}
+    .choice:focus-visible{outline:3px solid rgba(17,19,24,.2);outline-offset:3px}
+    .image-stage{width:100%;height:clamp(280px,calc(100dvh - 185px),820px);display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:9px;background:#eef0f3}
+    .choice img{display:block;width:100%;height:100%;object-fit:contain;object-position:center;border-radius:8px}
+    .vote{display:flex;justify-content:center;align-items:center;min-height:34px;margin-top:7px;border-radius:8px;background:#f2f3f5;font-weight:700;font-size:13px;line-height:1.1;padding:7px}
+    .choice:hover .vote{background:#e9ebef}
+    .finish{display:none;min-height:72vh;place-items:center}
+    .finish.show{display:grid}
+    .finish-card{width:min(720px,100%);background:white;border:1px solid var(--line);border-radius:16px;padding:28px}
+    .finish h1{text-align:center;font-size:clamp(30px,5vw,50px);margin:0 0 8px}
+    .finish-lead{text-align:center;font-size:16px;color:var(--muted);margin:0 0 24px}
+    .summary{display:grid;gap:10px;margin-top:12px}
+    .summary-row{display:grid;grid-template-columns:90px 1fr 1fr;gap:10px;align-items:center;padding:12px;border-radius:10px;background:#f4f5f7}
+    .summary-row strong{font-size:14px}.summary-item{text-align:center}.summary-item b{display:block;font-size:18px}.summary-item span{font-size:12px;color:var(--muted)}
+    .final-status{text-align:center;color:var(--muted);font-size:13px;margin-top:6px}.final-note{text-align:center;color:var(--muted);font-size:12px;margin:14px 0 0}
+    .hidden{display:none!important}
+    @media(max-width:760px){
+      .app{padding:10px 7px 18px}.top{margin-bottom:7px}.bar{margin-bottom:8px}.intro{margin-bottom:8px}.intro h1{font-size:19px}.intro p{font-size:12px}.arena{gap:6px}.choice{padding:4px;border-radius:9px}.image-stage{height:clamp(240px,calc(100dvh - 150px),720px);border-radius:6px}.choice img{border-radius:5px}.vote{min-height:30px;margin-top:4px;font-size:11px;padding:5px}.finish-card{padding:20px 14px}.summary-row{grid-template-columns:70px 1fr 1fr;gap:6px;padding:10px 8px}}
+    @media(max-height:650px){.image-stage{height:calc(100dvh - 145px)}.intro p{display:none}.intro{margin-bottom:6px}}
   </style>
 </head>
 <body>
@@ -17,14 +48,8 @@
   <section id="quiz">
     <div class="top"><div class="eyebrow">Comparação de criativos</div><div class="progress" id="progressText">1 de 4</div></div>
     <div class="bar"><i id="progressBar"></i></div>
-    <div class="intro"><h1>Qual imagem você prefere?</h1><p>Escolha apenas pela sua percepção visual. Não há resposta certa.</p></div>
+    <div class="intro"><h1>Qual imagem você prefere?</h1><p>Clique diretamente no criativo escolhido.</p></div>
     <div class="arena" id="arena"></div>
-    <section class="result" id="result" aria-live="polite">
-      <h2>Resultado desta comparação</h2>
-      <div class="status" id="status">Registrando voto…</div>
-      <div class="result-grid"><div class="stat"><strong id="leftPct">—</strong><span>Imagem da esquerda</span></div><div class="stat"><strong id="rightPct">—</strong><span>Imagem da direita</span></div></div>
-      <button class="next" id="nextBtn">Próxima comparação</button>
-    </section>
   </section>
 
   <section class="finish" id="finish">
@@ -33,7 +58,7 @@
       <p class="finish-lead">Resultado agregado de todas as votações:</p>
       <div class="final-status" id="finalStatus">Carregando resultados…</div>
       <div class="summary" id="finalResults"></div>
-      <p class="final-note">A e B correspondem aos dois criativos originais de cada cena, independentemente da posição em que apareceram na tela.</p>
+      <p class="final-note">A e B correspondem aos dois criativos originais de cada cena, independentemente da posição em que apareceram.</p>
     </div>
   </section>
 </main>
@@ -45,88 +70,82 @@
     {id:'cena-3', a:'assets/creative-05.webp', b:'assets/creative-06.webp'},
     {id:'cena-4', a:'assets/creative-07.webp', b:'assets/creative-08.webp'}
   ];
-  const NS = 'teste-cego-velomax-2026';
-  const storeKey = 'velomax-teste-cego-v1';
-  let state = JSON.parse(localStorage.getItem(storeKey) || '{}');
-  let current = Number.isInteger(state.current) ? state.current : 0;
-  const arena = document.getElementById('arena');
-  const result = document.getElementById('result');
-  const status = document.getElementById('status');
-  const nextBtn = document.getElementById('nextBtn');
-  const progressText = document.getElementById('progressText');
-  const progressBar = document.getElementById('progressBar');
-  const finalResults = document.getElementById('finalResults');
-  const finalStatus = document.getElementById('finalStatus');
+  const NS='teste-cego-velomax-2026';
+  const storeKey='velomax-teste-cego-v1';
+  let state=JSON.parse(localStorage.getItem(storeKey)||'{}');
+  let current=Number.isInteger(state.current)?state.current:0;
+  const pendingWrites=[];
+  const arena=document.getElementById('arena');
+  const progressText=document.getElementById('progressText');
+  const progressBar=document.getElementById('progressBar');
+  const finalResults=document.getElementById('finalResults');
+  const finalStatus=document.getElementById('finalStatus');
 
-  function save(){ state.current=current; localStorage.setItem(storeKey, JSON.stringify(state)); }
+  function save(){state.current=current;localStorage.setItem(storeKey,JSON.stringify(state));}
   function layoutFor(pair){
     state.order ||= {};
-    if(!state.order[pair.id]) state.order[pair.id] = Math.random() < .5 ? ['a','b'] : ['b','a'];
-    save(); return state.order[pair.id];
+    if(!state.order[pair.id]) state.order[pair.id]=Math.random()<.5?['a','b']:['b','a'];
+    save();
+    return state.order[pair.id];
   }
-  function card(pair, key, side){
-    const div=document.createElement('div'); div.className='choice'; div.tabIndex=0; div.dataset.key=key; div.dataset.side=side;
-    div.innerHTML=`<img src="${pair[key]}" alt="Opção ${side==='left'?'à esquerda':'à direita'}" draggable="false"><div class="vote">Votar nesta imagem</div>`;
-    const go=()=>vote(pair,key,side); div.addEventListener('click',go); div.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}}); return div;
+  function card(pair,key,side){
+    const div=document.createElement('div');
+    div.className='choice';div.tabIndex=0;div.dataset.key=key;
+    div.innerHTML=`<div class="image-stage"><img src="${pair[key]}" alt="Opção ${side==='left'?'à esquerda':'à direita'}" draggable="false"></div><div class="vote">Votar nesta imagem</div>`;
+    const go=()=>vote(pair,key);
+    div.addEventListener('click',go);
+    div.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}});
+    return div;
   }
-  async function counter(key, increment){
+  async function counter(key,increment){
     const url=`https://counterapi.com/api/${encodeURIComponent(NS)}/vote/${encodeURIComponent(key)}?behavior=vote${increment?'':'&readOnly=true'}`;
-    const r=await fetch(url,{cache:'no-store'}); if(!r.ok) throw new Error('counter'); return r.json();
+    const r=await fetch(url,{cache:'no-store'});
+    if(!r.ok) throw new Error('counter');
+    return r.json();
   }
-  async function vote(pair,key,side){
-    state.votes ||= {}; if(state.votes[pair.id]) return;
-    state.votes[pair.id]=key; save();
-    [...arena.children].forEach(el=>{el.classList.add('disabled'); if(el.dataset.key===key) el.classList.add('selected');});
-    result.classList.add('show'); status.textContent='Registrando voto…';
-    const order=layoutFor(pair);
-    try{
-      await counter(`${pair.id}-${key}`, true);
-      const [a,b]=await Promise.all([counter(`${pair.id}-a`,false),counter(`${pair.id}-b`,false)]);
-      const counts={a:Number(a.value)||0,b:Number(b.value)||0}; const total=counts.a+counts.b || 1;
-      const left=order[0], right=order[1];
-      document.getElementById('leftPct').textContent=Math.round(counts[left]*100/total)+'%';
-      document.getElementById('rightPct').textContent=Math.round(counts[right]*100/total)+'%';
-      status.textContent=`${counts.a+counts.b} voto${counts.a+counts.b===1?'':'s'} nesta comparação`;
-    }catch(e){
-      document.getElementById('leftPct').textContent=side==='left'?'Seu voto':'—';
-      document.getElementById('rightPct').textContent=side==='right'?'Seu voto':'—';
-      status.textContent='Voto salvo neste navegador. O placar agregado está temporariamente indisponível.';
-    }
+  function vote(pair,key){
+    state.votes ||= {};
+    if(state.votes[pair.id]) return;
+    state.votes[pair.id]=key;
+    const write=counter(`${pair.id}-${key}`,true).catch(()=>null);
+    pendingWrites.push(write);
+    current++;
+    save();
+    render();
+    window.scrollTo({top:0,behavior:'auto'});
   }
   async function loadFinalResults(){
     finalResults.innerHTML='';
     finalStatus.textContent='Carregando resultados…';
     try{
+      await Promise.allSettled(pendingWrites);
       const all=await Promise.all(pairs.map(async(pair,i)=>{
         const [a,b]=await Promise.all([counter(`${pair.id}-a`,false),counter(`${pair.id}-b`,false)]);
-        const ca=Number(a.value)||0, cb=Number(b.value)||0, total=ca+cb;
-        const pa=total?Math.round(ca*100/total):0, pb=total?100-pa:0;
-        return {n:i+1,ca,cb,total,pa,pb};
+        const ca=Number(a.value)||0,cb=Number(b.value)||0,total=ca+cb;
+        const pa=total?Math.round(ca*100/total):0,pb=total?100-pa:0;
+        return {n:i+1,ca,cb,pa,pb};
       }));
       finalResults.innerHTML=all.map(r=>`<div class="summary-row"><strong>Cena ${r.n}</strong><div class="summary-item"><b>A: ${r.ca} (${r.pa}%)</b><span>votos</span></div><div class="summary-item"><b>B: ${r.cb} (${r.pb}%)</b><span>votos</span></div></div>`).join('');
       finalStatus.textContent='Resultado atualizado agora';
     }catch(e){
-      finalStatus.textContent='Não foi possível carregar o agregado agora. Tente atualizar a página.';
+      finalStatus.textContent='Não foi possível carregar o agregado agora. Atualize a página para tentar novamente.';
     }
   }
   function render(){
+    while(current<pairs.length && state.votes?.[pairs[current].id]) current++;
+    save();
     if(current>=pairs.length){
       document.getElementById('quiz').classList.add('hidden');
       document.getElementById('finish').classList.add('show');
       loadFinalResults();
       return;
     }
-    const pair=pairs[current], order=layoutFor(pair); arena.innerHTML=''; result.classList.remove('show');
-    progressText.textContent=`${current+1} de ${pairs.length}`; progressBar.style.width=((current+1)/pairs.length*100)+'%';
+    const pair=pairs[current],order=layoutFor(pair);
+    arena.innerHTML='';
+    progressText.textContent=`${current+1} de ${pairs.length}`;
+    progressBar.style.width=((current+1)/pairs.length*100)+'%';
     arena.append(card(pair,order[0],'left'),card(pair,order[1],'right'));
-    if(state.votes?.[pair.id]){
-      const chosen=state.votes[pair.id]; [...arena.children].forEach(el=>{el.classList.add('disabled');if(el.dataset.key===chosen)el.classList.add('selected');});
-      result.classList.add('show'); status.textContent='Você já votou nesta comparação neste navegador.';
-      Promise.all([counter(`${pair.id}-a`,false),counter(`${pair.id}-b`,false)]).then(([a,b])=>{const c={a:+a.value||0,b:+b.value||0},t=c.a+c.b||1;document.getElementById('leftPct').textContent=Math.round(c[order[0]]*100/t)+'%';document.getElementById('rightPct').textContent=Math.round(c[order[1]]*100/t)+'%';status.textContent=`${c.a+c.b} voto${c.a+c.b===1?'':'s'} nesta comparação`;}).catch(()=>{});
-    }
-    nextBtn.textContent=current===pairs.length-1?'Concluir':'Próxima comparação';
   }
-  nextBtn.addEventListener('click',()=>{ if(!state.votes?.[pairs[current].id]) return; current++; save(); render(); window.scrollTo({top:0,behavior:'smooth'}); });
   render();
 })();
 </script>
