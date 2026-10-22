@@ -22,7 +22,9 @@ jobs:
           NS='teste-cego-velomax-2026'
           read_count() {
             key="$1"
-            curl -fsS "https://counterapi.com/api/${NS}/vote/${key}?behavior=vote&readOnly=true" | jq -r '.value // 0'
+            curl -fsS --retry 10 --retry-delay 2 --retry-all-errors \
+              "https://counterapi.com/api/${NS}/vote/${key}?behavior=vote&readOnly=true" \
+              | jq -r '.value // 0'
           }
 
           {
