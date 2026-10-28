@@ -1,0 +1,15 @@
+RESULTADOS ARQUIVADOS — TESTE CEGO DE PARES DE IMAGENS
+Snapshot em: 2026-10-28 16:01:27 UTC
+Fonte: CountAPI público (https://countapi.mileshilliard.com), prefixo velomax_testecego_20261022_9f3d
+Não havia backend, planilha nem Supabase. O navegador gravava cada voto com GET /hit e lia o agregado com GET /get. O progresso individual ficava só no localStorage do participante.
+
+Cena 1 (A = assets/creative-01.webp, B = assets/creative-02.webp): A=1 (25%) | B=3 (75%) | Total=4
+Cena 2 (A = assets/creative-03.webp, B = assets/creative-04.webp): A=2 (50%) | B=2 (50%) | Total=4
+Cena 3 (A = assets/creative-05.webp, B = assets/creative-06.webp): A=1 (25%) | B=3 (75%) | Total=4
+Cena 4 (A = assets/creative-07.webp, B = assets/creative-08.webp): A=2 (50%) | B=2 (50%) | Total=4
+
+A e B são os dois criativos originais de cada cena, não a posição esquerda/direita.
+
+Serviço anterior (já desligado antes deste arquivo): counterapi.com, namespace teste-cego-velomax-2026, chaves cena-N-a / cena-N-b. O workflow .github/workflows/snapshot-results.yml foi removido no commit c8dfc4b. Em 28/10/2026 esse serviço respondeu HTTP 502 ou timeout, sem números para copiar.
+
+O teste novo não consulta estas chaves. A página arquivada não incrementa mais os contadores.

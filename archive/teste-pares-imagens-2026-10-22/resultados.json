@@ -1,0 +1,64 @@
+{
+  "teste": "pares de imagens",
+  "encerrado_em": "2026-10-28T16:01:27Z",
+  "registro": {
+    "tipo": "contador público CountAPI (sem backend, planilha ou Supabase)",
+    "servico": "https://countapi.mileshilliard.com/api/v1",
+    "prefixo": "velomax_testecego_20261022_9f3d",
+    "chaves": {
+      "cena-1": {
+        "a": "velomax_testecego_20261022_9f3d_cena_1_a",
+        "b": "velomax_testecego_20261022_9f3d_cena_1_b"
+      },
+      "cena-2": {
+        "a": "velomax_testecego_20261022_9f3d_cena_2_a",
+        "b": "velomax_testecego_20261022_9f3d_cena_2_b"
+      },
+      "cena-3": {
+        "a": "velomax_testecego_20261022_9f3d_cena_3_a",
+        "b": "velomax_testecego_20261022_9f3d_cena_3_b"
+      },
+      "cena-4": {
+        "a": "velomax_testecego_20261022_9f3d_cena_4_a",
+        "b": "velomax_testecego_20261022_9f3d_cena_4_b"
+      }
+    }
+  },
+  "resultados": [
+    {
+      "cena": 1,
+      "arquivos": {"a": "assets/creative-01.webp", "b": "assets/creative-02.webp"},
+      "votos": {"a": 1, "b": 3},
+      "percentual": {"a": 25, "b": 75},
+      "total": 4
+    },
+    {
+      "cena": 2,
+      "arquivos": {"a": "assets/creative-03.webp", "b": "assets/creative-04.webp"},
+      "votos": {"a": 2, "b": 2},
+      "percentual": {"a": 50, "b": 50},
+      "total": 4
+    },
+    {
+      "cena": 3,
+      "arquivos": {"a": "assets/creative-05.webp", "b": "assets/creative-06.webp"},
+      "votos": {"a": 1, "b": 3},
+      "percentual": {"a": 25, "b": 75},
+      "total": 4
+    },
+    {
+      "cena": 4,
+      "arquivos": {"a": "assets/creative-07.webp", "b": "assets/creative-08.webp"},
+      "votos": {"a": 2, "b": 2},
+      "percentual": {"a": 50, "b": 50},
+      "total": 4
+    }
+  ],
+  "servico_anterior": {
+    "servico": "https://counterapi.com",
+    "namespace": "teste-cego-velomax-2026",
+    "chaves": ["cena-1-a", "cena-1-b", "cena-2-a", "cena-2-b", "cena-3-a", "cena-3-b", "cena-4-a", "cena-4-b"],
+    "observacao": "Substituído em 22/10/2026 pelo CountAPI acima (commit 73464a8). O workflow que gravava resultados.txt foi removido no commit c8dfc4b. Em 28/10/2026 o counterapi.com respondeu HTTP 502 ou estourou o tempo, então não há snapshot numérico desse serviço."
+  },
+  "separacao": "O teste de vídeos usa outro prefixo de contador e não lê estas chaves. Esta página arquivada também deixou de incrementar os contadores."
+}

@@ -38,6 +38,7 @@
     .summary-row strong{font-size:14px}.summary-item{text-align:center}.summary-item b{display:block;font-size:18px}.summary-item span{font-size:12px;color:var(--muted)}
     .final-status{text-align:center;color:var(--muted);font-size:13px;margin-top:6px}.final-note{text-align:center;color:var(--muted);font-size:12px;margin:14px 0 0}
     .hidden{display:none!important}
+    .archive-banner{margin:0 0 12px;padding:10px 12px;border-radius:10px;background:#fff6e8;border:1px solid #f0ddb8;color:#6b4e16;font-size:13px;line-height:1.4}
     @media(max-width:760px){
       .app{padding:10px 7px 18px}.top{margin-bottom:7px}.bar{margin-bottom:8px}.intro{margin-bottom:8px}.intro h1{font-size:19px}.intro p{font-size:12px}.arena{gap:6px}.choice{padding:4px;border-radius:9px}.image-stage{height:clamp(240px,calc(100dvh - 150px),720px);border-radius:6px}.choice img{border-radius:5px}.vote{min-height:30px;margin-top:4px;font-size:11px;padding:5px}.finish-card{padding:20px 14px}.summary-row{grid-template-columns:70px 1fr 1fr;gap:6px;padding:10px 8px}}
     @media(max-height:650px){.image-stage{height:calc(100dvh - 145px)}.intro p{display:none}.intro{margin-bottom:6px}}
@@ -45,6 +46,7 @@
 </head>
 <body>
 <main class="app">
+  <p class="archive-banner">Teste encerrado em 28/10/2026. Esta página é só o arquivo do teste de imagens. Votos novos não são registrados e não entram no teste atual.</p>
   <section id="quiz">
     <div class="top"><div class="eyebrow">Comparação de criativos</div><div class="progress" id="progressText">1 de 4</div></div>
     <div class="bar"><i id="progressBar"></i></div>
@@ -70,6 +72,12 @@
     {id:'cena-3', a:'assets/creative-05.webp', b:'assets/creative-06.webp'},
     {id:'cena-4', a:'assets/creative-07.webp', b:'assets/creative-08.webp'}
   ];
+  const ARCHIVED_RESULTS=[
+    {n:1,ca:1,cb:3,pa:25,pb:75},
+    {n:2,ca:2,cb:2,pa:50,pb:50},
+    {n:3,ca:1,cb:3,pa:25,pb:75},
+    {n:4,ca:2,cb:2,pa:50,pb:50}
+  ];
   const COUNTER='https://countapi.mileshilliard.com/api/v1';
   const PREFIX='velomax_testecego_20261022_9f3d';
   const storeKey='velomax-teste-cego-v1';
@@ -92,11 +100,8 @@
     return r.json();
   }
 
-  function syncVote(pairId,key){
-    state.synced ||= {};
-    if(state.synced[pairId]) return;
-    const p=counter(`${pairId}-${key}`,true).then(()=>{state.synced[pairId]=true;save();});
-    pendingWrites.push(p.catch(()=>null));
+  function syncVote(){
+    // Arquivo histórico: não chama mais o CountAPI, para os totais de 28/10/2026 permanecerem os do snapshot.
   }
 
   // shortcut: public counters can be manipulated; enough for this 10-person blind test.
@@ -129,22 +134,9 @@
     window.scrollTo({top:0,behavior:'auto'});
   }
 
-  async function loadFinalResults(){
-    finalResults.innerHTML='';
-    finalStatus.textContent='Carregando resultados…';
-    try{
-      await Promise.allSettled(pendingWrites);
-      const all=await Promise.all(pairs.map(async(pair,i)=>{
-        const [a,b]=await Promise.all([counter(`${pair.id}-a`,false),counter(`${pair.id}-b`,false)]);
-        const ca=Number(a.value)||0,cb=Number(b.value)||0,total=ca+cb;
-        const pa=total?Math.round(ca*100/total):0,pb=total?100-pa:0;
-        return {n:i+1,ca,cb,pa,pb};
-      }));
-      finalResults.innerHTML=all.map(r=>`<div class="summary-row"><strong>Cena ${r.n}</strong><div class="summary-item"><b>A: ${r.ca} (${r.pa}%)</b><span>votos</span></div><div class="summary-item"><b>B: ${r.cb} (${r.pb}%)</b><span>votos</span></div></div>`).join('');
-      finalStatus.textContent='Resultado atualizado agora';
-    }catch(e){
-      finalStatus.textContent='Não foi possível carregar o agregado agora. Atualize a página para tentar novamente.';
-    }
+  function loadFinalResults(){
+    finalResults.innerHTML=ARCHIVED_RESULTS.map(r=>`<div class="summary-row"><strong>Cena ${r.n}</strong><div class="summary-item"><b>A: ${r.ca} (${r.pa}%)</b><span>votos</span></div><div class="summary-item"><b>B: ${r.cb} (${r.pb}%)</b><span>votos</span></div></div>`).join('');
+    finalStatus.textContent='Totais congelados em 28/10/2026. Esta página não consulta mais o contador.';
   }
 
   function render(){
