@@ -50,13 +50,9 @@
     .final-note{text-align:center;color:var(--muted);font-size:12px;margin:14px 0 0}
     .hidden{display:none!important}
     @media(max-width:1099px){
-      body:has(#quiz:not(.hidden)){height:100dvh;overflow:hidden}
-      body:has(#quiz:not(.hidden)) .app{height:100%;display:flex;flex-direction:column;padding-bottom:calc(8px + env(safe-area-inset-bottom))}
-      #quiz{flex:1;display:flex;flex-direction:column;min-height:0}
-      .arena{flex:1;min-height:0;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
-      .choice{min-height:0}
-      .stage{flex:1;height:auto;min-height:0;aspect-ratio:auto}
-      .submitbar{position:static;margin-top:8px;padding:4px 0 0;background:none}
+      .arena{grid-template-columns:1fr 1fr}
+      .stage{aspect-ratio:9/16;min-height:160px}
+      .app{padding-bottom:calc(18px + env(safe-area-inset-bottom))}
     }
     @media(min-width:1100px){
       .stage{max-height:calc(100dvh - 248px)}
@@ -123,7 +119,9 @@
   const finalResults = document.getElementById('finalResults');
   const finalStatus = document.getElementById('finalStatus');
 
-  function save(){ localStorage.setItem(storeKey, JSON.stringify(state)); }
+  function save(){
+    try { localStorage.setItem(storeKey, JSON.stringify(state)); } catch (e) {}
+  }
   function counterKey(id){ return `${PREFIX}_opt_${id}`; }
   function validId(id){ return ids.includes(id); }
   function validOrder(order){
@@ -151,8 +149,12 @@
     if (!validOrder(state.order)){
       const order = ids.slice();
       const random = new Uint32Array(order.length);
-      if (globalThis.crypto?.getRandomValues) crypto.getRandomValues(random);
-      else for (let i = 0; i < random.length; i++) random[i] = Math.floor(Math.random() * 0xffffffff);
+      try {
+        if (globalThis.crypto && crypto.getRandomValues) crypto.getRandomValues(random);
+        else throw new Error('no crypto');
+      } catch (e) {
+        for (let i = 0; i < random.length; i++) random[i] = Math.floor(Math.random() * 0xffffffff);
+      }
       for (let i = order.length - 1; i > 0; i--){
         const j = random[i] % (i + 1);
         const swap = order[i];
@@ -176,38 +178,7 @@
     submitBtn.disabled = !selected || submitting;
   }
 
-  function card(id, position){
-    const article = document.createElement('article');
-    article.className = 'choice';
-    article.dataset.id = id;
-    const label = `Vídeo ${position}`;
-
-    const stage = document.createElement('div');
-    stage.className = 'stage';
-    const video = document.createElement('video');
-    video.controls = true;
-    video.playsInline = true;
-    video.preload = 'metadata';
-    video.setAttribute('playsinline', '');
-    video.setAttribute('webkit-playsinline', '');
-    video.controlsList.add('nodownload');
-    video.setAttribute('controlsList', 'nodownload');
-    video.disablePictureInPicture = true;
-    video.setAttribute('aria-label', label);
-    video.src = sources[id];
-    const fail = document.createElement('p');
-    fail.className = 'vfail';
-    fail.textContent = 'Não foi possível carregar este vídeo. Atualize a página.';
-    const overlay = document.createElement('button');
-    overlay.type = 'button';
-    overlay.className = 'overlay';
-    overlay.setAttribute('aria-label', `Reproduzir ${label.toLowerCase()}`);
-    overlay.innerHTML = '<span>▶</span>';
-    overlay.addEventListener('click', () => { video.play().catch(() => {}); });
-    video.addEventListener('play', () => stage.classList.add('playing'));
-    video.addEventListener('error', () => stage.classList.add('failed'));
-    stage.append(video, fail, overlay);
-
+  function pickButton(id){
     const pick = document.createElement('button');
     pick.type = 'button';
     pick.className = 'pick';
@@ -220,8 +191,56 @@
       save();
       paintSelection();
     });
+    return pick;
+  }
 
-    article.append(stage, pick);
+  function failedStage(){
+    const stage = document.createElement('div');
+    stage.className = 'stage failed';
+    const fail = document.createElement('p');
+    fail.className = 'vfail';
+    fail.textContent = 'Não foi possível carregar este vídeo. Atualize a página.';
+    stage.append(fail);
+    return stage;
+  }
+
+  function card(id, position){
+    const article = document.createElement('article');
+    article.className = 'choice';
+    article.dataset.id = id;
+    const label = `Vídeo ${position}`;
+    try {
+      const stage = document.createElement('div');
+      stage.className = 'stage';
+      const video = document.createElement('video');
+      video.controls = true;
+      video.playsInline = true;
+      video.preload = 'metadata';
+      video.setAttribute('playsinline', '');
+      video.setAttribute('webkit-playsinline', '');
+      video.setAttribute('controls', '');
+      // Safari/WebKit não implementa controlsList; acessar .add derruba a página inteira.
+      if (video.controlsList && typeof video.controlsList.add === 'function') video.controlsList.add('nodownload');
+      video.setAttribute('controlsList', 'nodownload');
+      try { video.disablePictureInPicture = true; } catch (e) {}
+      video.setAttribute('aria-label', label);
+      const fail = document.createElement('p');
+      fail.className = 'vfail';
+      fail.textContent = 'Não foi possível carregar este vídeo. Atualize a página.';
+      const overlay = document.createElement('button');
+      overlay.type = 'button';
+      overlay.className = 'overlay';
+      overlay.setAttribute('aria-label', `Reproduzir ${label.toLowerCase()}`);
+      overlay.innerHTML = '<span>▶</span>';
+      overlay.addEventListener('click', () => { video.play().catch(() => stage.classList.add('failed')); });
+      video.addEventListener('play', () => stage.classList.add('playing'));
+      video.addEventListener('error', () => stage.classList.add('failed'));
+      stage.append(video, fail, overlay);
+      video.src = sources[id];
+      article.append(stage, pickButton(id));
+    } catch (e) {
+      article.append(failedStage(), pickButton(id));
+    }
     return article;
   }
 
@@ -269,15 +288,37 @@
   }
 
   function renderQuiz(){
-    arena.innerHTML = '';
-    orderOf().forEach((id, index) => arena.append(card(id, index + 1)));
+    arena.replaceChildren();
+    const order = orderOf();
+    order.forEach((id, index) => {
+      try { arena.append(card(id, index + 1)); }
+      catch (e) {
+        const article = document.createElement('article');
+        article.className = 'choice';
+        article.dataset.id = id;
+        article.append(failedStage(), pickButton(id));
+        arena.append(article);
+      }
+    });
     paintSelection();
   }
 
   submitBtn.addEventListener('click', submitChoice);
 
-  if (validId(state.vote)) showFinish();
-  else renderQuiz();
+  try {
+    if (validId(state.vote)) showFinish();
+    else renderQuiz();
+  } catch (e) {
+    arena.replaceChildren();
+    ids.forEach((id, index) => {
+      const article = document.createElement('article');
+      article.className = 'choice';
+      article.dataset.id = id;
+      article.append(failedStage(), pickButton(id));
+      arena.append(article);
+    });
+    paintSelection();
+  }
 })();
 </script>
 </body>
