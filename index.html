@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="color-scheme" content="light" />
+  <title>Teste cego de criativos</title>
+  <style>
+    :root{--bg:#f5f6f8;--card:#fff;--text:#111318;--muted:#68707d;--line:#e4e7ec;--accent:#16181d}
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:var(--bg)}
+    body{min-height:100vh;min-height:100dvh}
+    button,video{font:inherit}
+    .app{width:min(1280px,100%);margin:auto;padding:16px 18px 24px}
+    .top{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:10px}
+    .eyebrow{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+    .progress{font-size:13px;color:var(--muted);white-space:nowrap}
+    .intro{text-align:center;margin:0 auto 14px;max-width:760px}
+    .intro h1{font-size:clamp(22px,2.4vw,32px);line-height:1.1;margin:0 0 6px}
+    .intro p{margin:0;color:var(--muted);font-size:14px}
+    .arena{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-items:stretch}
+    .choice{min-width:0;border:1px solid var(--line);background:var(--card);border-radius:14px;padding:8px;display:flex;flex-direction:column;gap:8px}
+    .choice.selected{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent)}
+    .stage{position:relative;width:100%;aspect-ratio:9/16;border-radius:9px;overflow:hidden;background:#0e1014}
+    .stage video{display:block;width:100%;height:100%;object-fit:contain;background:#0e1014}
+    .overlay{position:absolute;inset:0;border:0;background:linear-gradient(to top,rgba(0,0,0,.35),rgba(0,0,0,.05));color:#fff;cursor:pointer;display:grid;place-items:center}
+    .overlay span{display:grid;place-items:center;width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,.92);color:#111;font-size:18px;font-weight:700}
+    .stage.playing .overlay,.stage.failed .overlay{display:none}
+    .vfail{display:none;position:absolute;inset:0;margin:0;padding:12px;place-items:center;text-align:center;color:#fff;font-size:13px;line-height:1.35}
+    .stage.failed .vfail{display:grid}
+    .pick{min-height:44px;border-radius:10px;border:0;background:#f2f3f5;color:var(--text);font-weight:700;font-size:14px;cursor:pointer}
+    .choice.selected .pick{background:var(--accent);color:#fff}
+    .pick:focus-visible,.overlay:focus-visible,.submitbar button:focus-visible{outline:3px solid rgba(17,19,24,.28);outline-offset:2px}
+    .submitbar{position:sticky;bottom:0;z-index:2;margin-top:14px;padding:12px 0 calc(12px + env(safe-area-inset-bottom));background:linear-gradient(to top,var(--bg) 72%,rgba(245,246,248,0))}
+    .submitbar button{display:block;width:min(440px,100%);margin:0 auto;min-height:48px;border:0;border-radius:12px;background:var(--accent);color:#fff;font-weight:700;font-size:15px;cursor:pointer}
+    .submitbar button:disabled{background:#c5c8ce;cursor:not-allowed}
+    .finish{display:none;min-height:72vh;place-items:center}
+    .finish.show{display:grid}
+    .finish-card{width:min(640px,100%);background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px}
+    .finish h1{text-align:center;font-size:clamp(28px,5vw,46px);margin:0 0 8px}
+    .finish-lead{text-align:center;font-size:16px;color:var(--muted);margin:0 0 18px}
+    .summary{display:grid;gap:10px}
+    .summary-row{display:grid;grid-template-columns:36px 1fr auto;gap:10px;align-items:center;padding:12px;border-radius:10px;background:#f4f5f7}
+    .summary-row strong{font-size:18px}
+    .meter{height:8px;background:#e4e7ec;border-radius:99px;overflow:hidden}
+    .meter>i{display:block;height:100%;background:var(--accent);width:0}
+    .summary-item{text-align:right;font-size:14px;font-weight:700;white-space:nowrap}
+    .summary-item span{display:block;font-size:12px;font-weight:500;color:var(--muted)}
+    .final-status{text-align:center;color:var(--muted);font-size:13px;margin:0 0 14px}
+    .final-note{text-align:center;color:var(--muted);font-size:12px;margin:14px 0 0}
+    .hidden{display:none!important}
+    @media(max-width:1099px){
+      body:has(#quiz:not(.hidden)){height:100dvh;overflow:hidden}
+      body:has(#quiz:not(.hidden)) .app{height:100%;display:flex;flex-direction:column;padding-bottom:calc(8px + env(safe-area-inset-bottom))}
+      #quiz{flex:1;display:flex;flex-direction:column;min-height:0}
+      .arena{flex:1;min-height:0;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
+      .choice{min-height:0}
+      .stage{flex:1;height:auto;min-height:0;aspect-ratio:auto}
+      .submitbar{position:static;margin-top:8px;padding:4px 0 0;background:none}
+    }
+    @media(min-width:1100px){
+      .stage{max-height:calc(100dvh - 248px)}
+    }
+    @media(max-width:720px){
+      .app{padding:10px 8px 18px}
+      .intro{margin-bottom:10px}
+      .intro h1{font-size:22px}
+      .intro p{font-size:13px}
+      .arena{gap:8px}
+      .choice{padding:6px;border-radius:12px;gap:6px}
+      .overlay span{width:46px;height:46px}
+      .pick{min-height:42px;font-size:13px}
+      .finish-card{padding:20px 14px}
+    }
+  </style>
+</head>
+<body>
+<main class="app">
+  <section id="quiz">
+    <div class="top">
+      <div class="eyebrow">Comparação de criativos</div>
+      <div class="progress">Escolha única</div>
+    </div>
+    <div class="intro">
+      <h1>Qual vídeo você prefere?</h1>
+      <p>Os quatro aparecem juntos, em ordem aleatória. Assista, escolha um e envie.</p>
+    </div>
+    <div class="arena" id="arena" role="radiogroup" aria-label="Quatro vídeos"></div>
+    <div class="submitbar">
+      <button type="button" id="submit" disabled>Enviar escolha</button>
+    </div>
+  </section>
+
+  <section class="finish" id="finish">
+    <div class="finish-card">
+      <h1>Obrigado pela participação.</h1>
+      <p class="finish-lead">Resultado agregado de todas as escolhas:</p>
+      <div class="final-status" id="finalStatus">Carregando resultados…</div>
+      <div class="summary" id="finalResults"></div>
+      <p class="final-note">A, B, C e D são os quatro vídeos originais, independentemente da posição em que apareceram.</p>
+    </div>
+  </section>
+</main>
+<script>
+(() => {
+  const sources = {
+    a: 'https://velomaxxx-my.sharepoint.com/personal/yuri_velomax_net/_layouts/15/download.aspx?share=IQCO8cuQRyDcQYl98TYUXmTqAdMPYL1-wMjRtHWjBMvLNuw',
+    b: 'https://velomaxxx-my.sharepoint.com/personal/yuri_velomax_net/_layouts/15/download.aspx?share=IQDB-iyoQcpmSq2ACETApZJ3Aa-qvi_GdUlDNSX_V4ivA8I',
+    c: 'https://velomaxxx-my.sharepoint.com/personal/yuri_velomax_net/_layouts/15/download.aspx?share=IQBuqDPKSSNdRq6ym_qVdovCATYhED0CHyGMk3cvdq3OwIQ',
+    d: 'https://velomaxxx-my.sharepoint.com/personal/yuri_velomax_net/_layouts/15/download.aspx?share=IQBp4xqYuEsMSZTYw_3s3WXWAdnsT2iBHFzX8bPndGcDdVU'
+  };
+  const ids = ['a', 'b', 'c', 'd'];
+  const letters = {a:'A', b:'B', c:'C', d:'D'};
+  const COUNTER = 'https://countapi.mileshilliard.com/api/v1';
+  const PREFIX = 'velomax_testecego_videos4_20261028_c4e1';
+  const storeKey = 'velomax-teste-cego-videos-v1';
+  let state = {};
+  try { state = JSON.parse(localStorage.getItem(storeKey) || '{}') || {}; } catch (e) { state = {}; }
+  const pendingWrites = [];
+  let submitting = false;
+  const arena = document.getElementById('arena');
+  const submitBtn = document.getElementById('submit');
+  const finalResults = document.getElementById('finalResults');
+  const finalStatus = document.getElementById('finalStatus');
+
+  function save(){ localStorage.setItem(storeKey, JSON.stringify(state)); }
+  function counterKey(id){ return `${PREFIX}_opt_${id}`; }
+  function validId(id){ return ids.includes(id); }
+  function validOrder(order){
+    return Array.isArray(order) && order.length === ids.length && ids.every(id => order.includes(id));
+  }
+
+  async function counter(id, increment){
+    const response = await fetch(`${COUNTER}/${increment ? 'hit' : 'get'}/${counterKey(id)}`, {cache:'no-store'});
+    if (!increment && response.status === 404) return {value:0};
+    if (!response.ok) throw new Error(`counter ${response.status}`);
+    return response.json();
+  }
+
+  function syncVote(id){
+    state.synced ||= {};
+    if (state.synced[id]) return;
+    const write = counter(id, true).then(() => { state.synced[id] = true; save(); });
+    pendingWrites.push(write.catch(() => null));
+  }
+
+  // Contadores públicos podem ser alterados por fora; chega para este teste pequeno.
+  if (validId(state.vote)) syncVote(state.vote);
+
+  function orderOf(){
+    if (!validOrder(state.order)){
+      const order = ids.slice();
+      const random = new Uint32Array(order.length);
+      if (globalThis.crypto?.getRandomValues) crypto.getRandomValues(random);
+      else for (let i = 0; i < random.length; i++) random[i] = Math.floor(Math.random() * 0xffffffff);
+      for (let i = order.length - 1; i > 0; i--){
+        const j = random[i] % (i + 1);
+        const swap = order[i];
+        order[i] = order[j];
+        order[j] = swap;
+      }
+      state.order = order;
+      save();
+    }
+    return state.order;
+  }
+
+  function paintSelection(){
+    const selected = validId(state.pending) ? state.pending : '';
+    for (const card of arena.querySelectorAll('.choice')){
+      const on = card.dataset.id === selected;
+      card.classList.toggle('selected', on);
+      card.querySelector('.pick').setAttribute('aria-checked', on ? 'true' : 'false');
+      card.querySelector('.pick').textContent = on ? 'Selecionado' : 'Escolher este';
+    }
+    submitBtn.disabled = !selected || submitting;
+  }
+
+  function card(id, position){
+    const article = document.createElement('article');
+    article.className = 'choice';
+    article.dataset.id = id;
+    const label = `Vídeo ${position}`;
+
+    const stage = document.createElement('div');
+    stage.className = 'stage';
+    const video = document.createElement('video');
+    video.controls = true;
+    video.playsInline = true;
+    video.preload = 'metadata';
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
+    video.controlsList.add('nodownload');
+    video.setAttribute('controlsList', 'nodownload');
+    video.disablePictureInPicture = true;
+    video.setAttribute('aria-label', label);
+    video.src = sources[id];
+    const fail = document.createElement('p');
+    fail.className = 'vfail';
+    fail.textContent = 'Não foi possível carregar este vídeo. Atualize a página.';
+    const overlay = document.createElement('button');
+    overlay.type = 'button';
+    overlay.className = 'overlay';
+    overlay.setAttribute('aria-label', `Reproduzir ${label.toLowerCase()}`);
+    overlay.innerHTML = '<span>▶</span>';
+    overlay.addEventListener('click', () => { video.play().catch(() => {}); });
+    video.addEventListener('play', () => stage.classList.add('playing'));
+    video.addEventListener('error', () => stage.classList.add('failed'));
+    stage.append(video, fail, overlay);
+
+    const pick = document.createElement('button');
+    pick.type = 'button';
+    pick.className = 'pick';
+    pick.role = 'radio';
+    pick.setAttribute('aria-checked', 'false');
+    pick.textContent = 'Escolher este';
+    pick.addEventListener('click', () => {
+      if (state.vote || submitting) return;
+      state.pending = id;
+      save();
+      paintSelection();
+    });
+
+    article.append(stage, pick);
+    return article;
+  }
+
+  function submitChoice(){
+    if (submitting || state.vote || !validId(state.pending)) return;
+    submitting = true;
+    submitBtn.disabled = true;
+    state.vote = state.pending;
+    save();
+    syncVote(state.vote);
+    for (const video of arena.querySelectorAll('video')){
+      video.pause();
+      video.removeAttribute('src');
+      video.load();
+    }
+    showFinish();
+  }
+
+  async function loadFinalResults(){
+    finalResults.innerHTML = '';
+    finalStatus.textContent = 'Carregando resultados…';
+    try {
+      await Promise.allSettled(pendingWrites);
+      const counts = await Promise.all(ids.map(async (id) => {
+        const payload = await counter(id, false);
+        return Number(payload.value) || 0;
+      }));
+      const total = counts.reduce((sum, value) => sum + value, 0);
+      finalResults.innerHTML = ids.map((id, index) => {
+        const count = counts[index];
+        const percent = total ? Math.round(count * 100 / total) : 0;
+        return `<div class="summary-row"><strong>${letters[id]}</strong><div class="meter" aria-hidden="true"><i style="width:${percent}%"></i></div><div class="summary-item">${count} <span>${percent}%</span></div></div>`;
+      }).join('');
+      finalStatus.textContent = 'Resultado atualizado agora';
+    } catch (e) {
+      finalStatus.textContent = 'Não foi possível carregar o agregado agora. Atualize a página para tentar novamente.';
+    }
+  }
+
+  function showFinish(){
+    document.getElementById('quiz').classList.add('hidden');
+    document.getElementById('finish').classList.add('show');
+    loadFinalResults();
+    window.scrollTo({top:0, behavior:'auto'});
+  }
+
+  function renderQuiz(){
+    arena.innerHTML = '';
+    orderOf().forEach((id, index) => arena.append(card(id, index + 1)));
+    paintSelection();
+  }
+
+  submitBtn.addEventListener('click', submitChoice);
+
+  if (validId(state.vote)) showFinish();
+  else renderQuiz();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+MAPEAMENTO INTERNO — TESTE CEGO DE 4 VÍDEOS
+Início: 2026-10-28
+A página não mostra estes nomes. A, B, C e D são os criativos originais, não a posição na tela.
+A ordem exibida é sorteada no navegador de cada participante.
+
+Os arquivos seguem direto do SharePoint, sem cópia no GitHub.
+URL estável usada no player: https://velomaxxx-my.sharepoint.com/personal/yuri_velomax_net/_layouts/15/download.aspx?share=TOKEN
+O link :v: original redireciona para login quando aberto sem cookie. O download.aspx abaixo responde vídeo anônimo, com Range e CORS.
+
+Contador novo (separado do teste de imagens):
+https://countapi.mileshilliard.com/api/v1
+prefixo velomax_testecego_videos4_20261028_c4e1
+chaves: {prefixo}_opt_a | _opt_b | _opt_c | _opt_d
+
+A — Paper Cut
+share: IQCO8cuQRyDcQYl98TYUXmTqAdMPYL1-wMjRtHWjBMvLNuw
+link original: https://velomaxxx-my.sharepoint.com/:v:/g/personal/yuri_velomax_net/IQCO8cuQRyDcQYl98TYUXmTqAdMPYL1-wMjRtHWjBMvLNuw?e=K83bDZ
+arquivo: final.mp4 (projeto pianco-honey-papercut)
+1080x1920, ~88,3 s, H.264 + AAC, ~40 MB, ~3,8 Mbps
+
+B — Riso
+share: IQDB-iyoQcpmSq2ACETApZJ3Aa-qvi_GdUlDNSX_V4ivA8I
+link original: https://velomaxxx-my.sharepoint.com/:v:/g/personal/yuri_velomax_net/IQDB-iyoQcpmSq2ACETApZJ3Aa-qvi_GdUlDNSX_V4ivA8I?e=1WFneB
+arquivo: pianco-honey-riso-v3-final.mp4
+1080x1920, ~88,3 s, H.264 + AAC, ~398 MB, ~37,9 Mbps
+
+C — Vox
+share: IQBuqDPKSSNdRq6ym_qVdovCATYhED0CHyGMk3cvdq3OwIQ
+link original: https://velomaxxx-my.sharepoint.com/:v:/g/personal/yuri_velomax_net/IQBuqDPKSSNdRq6ym_qVdovCATYhED0CHyGMk3cvdq3OwIQ?e=4fBhrR
+arquivo: final.mp4
+1080x1920, ~88,3 s, H.264 + AAC, ~105 MB, ~10,0 Mbps
+
+D — Motion
+share: IQBp4xqYuEsMSZTYw_3s3WXWAdnsT2iBHFzX8bPndGcDdVU
+link original: https://velomaxxx-my.sharepoint.com/:v:/g/personal/yuri_velomax_net/IQBp4xqYuEsMSZTYw_3s3WXWAdnsT2iBHFzX8bPndGcDdVU?e=8oR67l
+arquivo: final.mp4
+1080x1920, ~88,3 s, H.264 + AAC, ~62 MB, ~5,9 Mbps
+
+O cabeçalho Content-Disposition do vídeo B inclui o nome do arquivo com "riso". Isso não aparece na página; só em ferramentas de rede, se alguém inspecionar o tráfego.
